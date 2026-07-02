@@ -64,6 +64,7 @@ export interface BraveAdblockBrowserProxy {
   addCustomScriptlet: (scriptlet: Scriptlet) => Promise<ErrorCode>
   updateCustomScriptlet: (name: string, scriptlet: Scriptlet) =>
     Promise<ErrorCode>
+  moveCustomScriptlet: (name: string, offset: number) => Promise<ErrorCode>
   removeCustomScriptlet: (name: string) => Promise<ErrorCode>
   addWebUiListener: (eventName: string, callback: Function) => void
 }
@@ -139,6 +140,12 @@ export class BraveAdblockBrowserProxyImpl implements BraveAdblockBrowserProxy {
     scriptlet.content = this.utf8ToBase64_(scriptlet.content)
     return sendWithPromise<ErrorCode>(
       'brave_adblock.updateCustomScriptlet', name, scriptlet
+    )
+  }
+
+  moveCustomScriptlet (name: string, offset: number) {
+    return sendWithPromise<ErrorCode>(
+      'brave_adblock.moveCustomScriptlet', name, offset
     )
   }
 
